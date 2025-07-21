@@ -24,6 +24,7 @@ return new class extends Migration
             $table->timestamp('last_login')->nullable();
             $table->boolean('is_active')->default(true);
             $table->string('password');
+            $table->uuid('qr_code')->unique();
             $table->json('preferences')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -29,6 +30,7 @@ class User extends Authenticatable
         'avatar',
         'phone',
         'password',
+        'qr_code',
         'is_active',
         'last_login',
         'preferences',
@@ -70,6 +72,17 @@ class User extends Authenticatable
             'preferences' => 'array',
             'is_active' => 'boolean',
         ];
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($guest) {
+            if (!$guest->qr_code) {
+                $guest->qr_code = Str::uuid()->toString();
+            }
+        });
     }
 
     /**

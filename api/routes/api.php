@@ -2,7 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\EventController;
 use App\Http\Controllers\AuthController;
 
 /*
@@ -41,5 +42,21 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/stats/overview', [UserController::class, 'statistics']);
         Route::put('/{user}/password', [UserController::class, 'updatePassword']);
         Route::patch('/{user}/preferences', [UserController::class, 'updatePreferences']);
+    });
+
+    // Event routes
+    Route::prefix('events')->group(function () {
+        // Standard CRUD operations
+        Route::get('/', [EventController::class, 'index']);
+        Route::post('/', [EventController::class, 'store']);
+        Route::get('/{event}', [EventController::class, 'show']);
+        Route::put('/{event}', [EventController::class, 'update']);
+        Route::delete('/{event}', [EventController::class, 'destroy']);
+
+        // Additional event operations
+        Route::get('/search/query', [EventController::class, 'search']);
+        Route::get('/stats/overview', [EventController::class, 'statistics']);
+        Route::patch('/{event}/toggle-active', [EventController::class, 'toggleActive']);
+        Route::get('/{event}/dates', [EventController::class, 'getDates']);
     });
 });

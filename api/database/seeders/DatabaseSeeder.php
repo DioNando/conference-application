@@ -15,8 +15,10 @@ class DatabaseSeeder extends Seeder
     {
         // Call seeders in order
         $this->call([
+            CountrySeeder::class,
             RoleSeeder::class,
             UserSeeder::class,
+            EventSeeder::class,
         ]);
     }
 }
